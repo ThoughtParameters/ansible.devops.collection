@@ -1,0 +1,7 @@
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: "Include thoughtparameters.devops.docker"
+      ansible.builtin.include_role:
+        name: "thoughtparameters.devops.docker"
