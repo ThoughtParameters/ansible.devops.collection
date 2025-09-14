@@ -1,0 +1,15 @@
+# galaxy.yml
+namespace: thoughtparameters
+name: devops
+version: 1.0.0
+readme: README.md
+authors:
+  - "Jules"
+description: "A collection of Ansible roles, playbooks, and modules for common DevOps tasks."
+license:
+  - MIT
+tags:
+  - devops
+  - automation
+  - infrastructure
+repository: "https://github.com/ThoughtParameters/ansible.devops.collection"

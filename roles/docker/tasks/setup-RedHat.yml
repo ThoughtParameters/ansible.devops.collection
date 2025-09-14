@@ -1,0 +1,5 @@
+# tasks/setup-RedHat.yml
+# Placeholder for RedHat-based Docker installation tasks.
+- name: Fail if this file is used
+  ansible.builtin.fail:
+    msg: "RedHat support is not yet implemented."

@@ -1,0 +1,17 @@
+# tasks/main.yml
+- name: Include OS-specific variables
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include tasks for Debian-based systems
+  ansible.builtin.include_tasks: setup-Debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Include tasks for RedHat-based systems
+  ansible.builtin.include_tasks: setup-RedHat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure Docker service is started and enabled
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true

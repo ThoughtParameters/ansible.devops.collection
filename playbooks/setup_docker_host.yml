@@ -1,0 +1,8 @@
+# playbooks/setup_docker_host.yml
+- name: Set up a Docker host
+  hosts: docker_hosts
+  become: true
+  tasks:
+    - name: Install and configure Docker Engine
+      ansible.builtin.include_role:
+        name: thoughtparameters.devops.docker
