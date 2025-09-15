@@ -1,4 +1,4 @@
-# thoughtparametersllc DevOps Ansible Collection (`thoughtparametersllc.devops`)
+# Thought Parameters LLC DevOps Ansible Collection (`thoughtparametersllc.devops`)
 
 ## 📜 Summary and Vision
 
@@ -16,7 +16,7 @@ The **`thoughtparametersllc.devops`** collection is a curated set of Ansible rol
         ```
       * **From this Git Repository (for development):**
         ```bash
-        ansible-galaxy collection install git+https://github.com/thoughtparametersllc/ansible.devops.collection.git
+        ansible-galaxy collection install git+https://github.com/ThoughtParameters/ansible.devops.collection.git
         ```
 
 3.  **Usage in a Playbook:**
@@ -29,7 +29,7 @@ The **`thoughtparametersllc.devops`** collection is a curated set of Ansible rol
         - name: Install Prometheus Node Exporter
           ansible.builtin.include_role:
             name: thoughtparametersllc.devops.node_exporter
-    ```
+     ```
 
 ## 🧬 Developer Contribution Guide
 
