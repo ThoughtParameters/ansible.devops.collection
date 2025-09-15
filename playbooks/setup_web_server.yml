@@ -1,0 +1,28 @@
+# playbooks/setup_web_server.yml
+- name: Configure a Dockerized Nginx Web Server
+  hosts: webservers
+  become: true
+  vars:
+    nginx_config_template: "reverse-proxy.conf.j2"
+    nginx_app_port: 8080
+  tasks:
+    - name: Apply base system configurations
+      ansible.builtin.include_role:
+        name: thoughtparametersllc.devops.common # Assumes a 'common' role exists
+
+    - name: Install and configure Docker Engine
+      ansible.builtin.include_role:
+        name: thoughtparametersllc.devops.docker
+
+    - name: Install and configure Nginx
+      ansible.builtin.include_role:
+        name: thoughtparametersllc.devops.nginx
+
+    - name: Start a simple web application container
+      community.docker.docker_container:
+        name: web-app
+        image: "nginxdemos/hello:plain-text"
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ nginx_app_port }}:80"
