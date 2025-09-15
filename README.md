@@ -1,8 +1,8 @@
-# ThoughtParameters DevOps Ansible Collection (`thoughtparameters.devops`)
+# Thought Parameters LLC DevOps Ansible Collection (`thoughtparametersllc.devops`)
 
 ## 📜 Summary and Vision
 
-The **`thoughtparameters.devops`** collection is a curated set of Ansible roles, playbooks, and modules designed to automate common DevOps tasks. The primary goal is to provide **reusable, idempotent, and well-tested** automation for provisioning infrastructure, deploying applications, and managing system configurations across various environments. This collection will act as a centralized, version-controlled library to ensure consistency and speed up the automation workflow for our projects.
+The **`thoughtparametersllc.devops`** collection is a curated set of Ansible roles, playbooks, and modules designed to automate common DevOps tasks. The primary goal is to provide **reusable, idempotent, and well-tested** automation for provisioning infrastructure, deploying applications, and managing system configurations across various environments. This collection will act as a centralized, version-controlled library to ensure consistency and speed up the automation workflow for our projects.
 
 ## 🚀 Getting Started & How to Use
 
@@ -12,7 +12,7 @@ The **`thoughtparameters.devops`** collection is a curated set of Ansible roles,
 
       * **From Ansible Galaxy:**
         ```bash
-        ansible-galaxy collection install thoughtparameters.devops
+        ansible-galaxy collection install thoughtparametersllc.devops
         ```
       * **From this Git Repository (for development):**
         ```bash
@@ -20,7 +20,7 @@ The **`thoughtparameters.devops`** collection is a curated set of Ansible roles,
         ```
 
 3.  **Usage in a Playbook:**
-    To use a role from this collection, refer to it by its **Fully Qualified Collection Name (FQCN)**, which is `thoughtparameters.devops.<role_name>`.
+    To use a role from this collection, refer to it by its **Fully Qualified Collection Name (FQCN)**, which is `thoughtparametersllc.devops.<role_name>`.
 
     ```yaml
     - hosts: all
@@ -28,8 +28,8 @@ The **`thoughtparameters.devops`** collection is a curated set of Ansible roles,
       tasks:
         - name: Install Prometheus Node Exporter
           ansible.builtin.include_role:
-            name: thoughtparameters.devops.node_exporter
-    ```
+            name: thoughtparametersllc.devops.node_exporter
+     ```
 
 ## 🧬 Developer Contribution Guide
 

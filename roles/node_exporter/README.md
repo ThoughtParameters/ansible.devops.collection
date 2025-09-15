@@ -16,7 +16,7 @@ None.
 - hosts: servers
   become: true
   roles:
-    - role: thoughtparameters.devops.node_exporter
+    - role: thoughtparametersllc.devops.node_exporter
 ```
 
 ## License

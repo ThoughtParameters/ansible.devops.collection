@@ -8,15 +8,15 @@
   tasks:
     - name: Apply base system configurations
       ansible.builtin.include_role:
-        name: thoughtparameters.devops.common # Assumes a 'common' role exists
+        name: thoughtparametersllc.devops.common # Assumes a 'common' role exists
 
     - name: Install and configure Docker Engine
       ansible.builtin.include_role:
-        name: thoughtparameters.devops.docker
+        name: thoughtparametersllc.devops.docker
 
     - name: Install and configure Nginx
       ansible.builtin.include_role:
-        name: thoughtparameters.devops.nginx
+        name: thoughtparametersllc.devops.nginx
 
     - name: Start a simple web application container
       community.docker.docker_container:

@@ -29,7 +29,7 @@ None.
 - hosts: servers
   become: true
   roles:
-    - role: thoughtparameters.devops.docker
+    - role: thoughtparametersllc.devops.docker
 ```
 
 ## License

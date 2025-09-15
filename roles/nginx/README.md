@@ -16,7 +16,7 @@ None.
 - hosts: servers
   become: true
   roles:
-    - role: thoughtparameters.devops.nginx
+    - role: thoughtparametersllc.devops.nginx
 ```
 
 ## License
