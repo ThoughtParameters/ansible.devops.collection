@@ -13,6 +13,7 @@ on:
           - patch
           - minor
           - major
+          - initial
         default: "patch"
 
 # Permissions required for committing, tagging, and creating a release
@@ -69,8 +70,13 @@ jobs:
           elif bump_type == 'minor':
               minor += 1
               patch = 0
-          else: # patch
+          elif bump_type == 'patch': # patch
               patch += 1
+          else: # initial
+              if current_version != '0.0.0':
+                  raise ValueError("Initial version bump can only be done from version 0.0.0")
+              else:
+                  major, minor, patch = 0, 0, 1
           
           new_version = f"{major}.{minor}.{patch}"
           galaxy_data['version'] = new_version
