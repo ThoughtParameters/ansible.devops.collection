@@ -1,0 +1,16 @@
+---
+release_summary: Initial release of the ThoughtParameters.Devops collection.
+major_changes:
+- Added initial roles and playbooks for DevOps tasks.
+- Implemented CI/CD pipeline integration.
+minor_changes: []
+breaking_changes: []
+deprecated_features: []
+removed_features: []
+security_fixes: []
+bugfixes: []
+known_issues: []
+trivial: []
+---
+# This is a fragment for version 1.0.0 of the ThoughtParameters.Devops collection.
+# It includes the initial release notes and highlights the major changes introduced in this version.

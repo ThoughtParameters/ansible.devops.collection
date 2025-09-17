@@ -5,6 +5,7 @@ version: 1.0.0
 readme: README.md
 authors:
   - "Jules"
+  - "Jason Miller <jason.miller@thoughtparameters.com>"
 description: "A collection of Ansible roles, playbooks, and modules for common DevOps tasks."
 license:
   - MIT
