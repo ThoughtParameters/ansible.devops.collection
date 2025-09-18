@@ -1,0 +1,16 @@
+---
+# requirements.yml
+
+# This file lists Ansible collections and roles required by the project.
+# It is used by ansible-galaxy to install dependencies.
+# To install the collections and roles, run:
+# ansible-galaxy install -r requirements.yml
+
+# Example:
+
+#roles:
+#  - name: geerlingguy.repo-epel
+#    version: 3.4.0
+
+collections:
+  - name: community.docker
