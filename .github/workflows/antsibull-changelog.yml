@@ -1,5 +1,5 @@
 # .github/workflows/ansible-lint.yml
-name: Ansibull Changelog Lint
+name: Antsibull Changelog Lint
 
 # This workflow runs on pushes to the main and develop branches,
 # and on any pull request.
