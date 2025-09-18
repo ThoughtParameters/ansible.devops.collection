@@ -106,7 +106,7 @@ jobs:
 
       - name: Commit, Tag, and Push Changes
         run: |
-          git add galaxy.yml changelogs/changelog.yaml CHANGELOG.md CHANGELOG.rst .changelogs/fragments/
+          git add galaxy.yml changelogs/changelog.yaml CHANGELOG.md CHANGELOG.rst changelogs/fragments/
           git commit -m "chore(release): Release version ${{ steps.versioning.outputs.new_version }}"
           git tag "v${{ steps.versioning.outputs.new_version }}"
           git push
