@@ -1,0 +1,41 @@
+# .github/workflows/ansible-lint.yml
+name: Antsibull Changelog Lint
+
+# This workflow runs on pushes to the main and develop branches,
+# and on any pull request.
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint:
+    name: Run antsibull-changelog lint
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository's code so the workflow can access it.
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python, which is required by ansible-lint.
+      # We specify a version to ensure consistency.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Step 3: Install ansible-lint and ansible-core.
+      # Caching dependencies speeds up subsequent runs.
+      - name: Install antsibull-changelog
+        run: |
+          python -m pip install --upgrade pip
+          pip install antsibull-changelog
+
+      # Step 4: Run antsibull-changelog lint.
+      # This command will lint all changelog fragments in the repository.
+      # The `-v` flag provides verbose output for better debugging.
+      - name: Run antsibull-changelog lint
+        run: |
+          antsibull-changelog lint
