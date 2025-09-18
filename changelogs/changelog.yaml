@@ -1,3 +1,26 @@
 ---
 ancestor: null
-releases: {}
+releases:
+  0.0.1:
+    changes:
+      breaking_changes: []
+      bugfixes: []
+      deprecated_features: []
+      known_issues: []
+      major_changes:
+        - Added .ansible-lint configuration for better code quality.
+        - Added initial collection files and structure.
+        - Added license information and metadata.
+        - Created comprehensive documentation and examples.
+        - Documented collection usage and contribution guidelines in README.md.
+        - Established versioning strategy and release process.
+        - Introduced changelog management using antsibull-changelog.
+        - Set up GitHub Actions for automated testing and releases.
+        - Updated changelog/config.yaml for customized changelog generation.
+      minor_changes: []
+      release_summary: Initial release of the ThoughtParameters.Devops collection.
+      removed_features: []
+      security_fixes: []
+    fragments:
+      - 1-add-initial-collection-files.yml
+    release_date: '2025-09-18'

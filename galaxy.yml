@@ -1,16 +1,16 @@
-# galaxy.yml
-namespace: thoughtparametersllc
-name: devops
-version: 0.0.0
-readme: README.md
 authors:
-  - "Jules"
-  - "Jason Miller <jason.miller@thoughtparameters.com>"
-description: "A collection of Ansible roles, playbooks, and modules for common DevOps tasks."
+- Jules
+- Jason Miller <jason.miller@thoughtparameters.com>
+description: A collection of Ansible roles, playbooks, and modules for common DevOps
+  tasks.
 license:
-  - MIT
+- MIT
+name: devops
+namespace: thoughtparametersllc
+readme: README.md
+repository: https://github.com/ThoughtParameters/ansible.devops.collection
 tags:
-  - devops
-  - automation
-  - infrastructure
-repository: "https://github.com/ThoughtParameters/ansible.devops.collection"
+- devops
+- automation
+- infrastructure
+version: 0.0.1
