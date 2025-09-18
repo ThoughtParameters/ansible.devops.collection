@@ -11,6 +11,10 @@
 #roles:
 #  - name: geerlingguy.repo-epel
 #    version: 3.4.0
+#
+#collections:
+#  - name: community.general
+#    version: 5.9.0
 
 collections:
   - name: community.docker
