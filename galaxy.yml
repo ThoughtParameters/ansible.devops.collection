@@ -1,16 +1,25 @@
+---
+# galaxy.yml
+
+# This file defines the metadata for the Ansible collection.
+# It includes information such as the collection name, version, authors,
+# description, license, and repository URL.
+# For more details, see:
+# https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#collection-metadata
+
 authors:
-- Jules
-- Jason Miller <jason.miller@thoughtparameters.com>
+  - Jules
+  - Jason Miller <jason.miller@thoughtparameters.com>
 description: A collection of Ansible roles, playbooks, and modules for common DevOps
   tasks.
 license:
-- MIT
+  - MIT
 name: devops
 namespace: thoughtparametersllc
 readme: README.md
 repository: https://github.com/ThoughtParameters/ansible.devops.collection
 tags:
-- devops
-- automation
-- infrastructure
+  - devops
+  - automation
+  - infrastructure
 version: 0.0.1

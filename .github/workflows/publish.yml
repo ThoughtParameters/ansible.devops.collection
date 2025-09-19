@@ -1,24 +1,41 @@
-name: Publish to Ansible Galaxy
+name: Publish Collection via Release Tarball to Ansible Galaxy
+
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
+
 jobs:
-  publish:
+  publish_from_release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase.
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      - name: Download release tarball artifact
+        # Use the GitHub CLI or wget/curl to grab the tarball from GitHub release
+        run: |
+          # The name of the tarball might follow a known convention; adjust as needed
+          # For example: thoughtparametersllc-devops-${{ github.ref_name }}.tar.gz
+          TAG=${GITHUB_REF/refs\/tags\//}
+          ARTIFACT="thoughtparametersllc-devops-${TAG}.tar.gz"
+          # Use GitHub API to fetch the release asset
+          # Requires permissions and possibly a token
+          curl -L --fail \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -o "$ARTIFACT" \
+            "https://github.com/${{ github.repository }}/releases/download/${TAG}/${ARTIFACT}"
 
       - name: Install Ansible
-        run: pip install ansible
-   
-      - name: Build and publish to Galaxy
         run: |
-          ansible-galaxy collection build
-          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} $(find . -name "thoughtparametersllc-devops-*.tar.gz" -type f)
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Publish collection to Galaxy
+        env:
+          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+        run: |
+          TAG=${GITHUB_REF/refs\/tags\//}
+          ARTIFACT="thoughtparametersllc-devops-${TAG}.tar.gz"
+          ansible-galaxy collection publish "$ARTIFACT" --api-key "$GALAXY_API_KEY"
+          if [ $? -ne 0 ]; then
+            echo "Failed to publish $ARTIFACT to Ansible Galaxy"
+            exit 1
+          fi
+          echo "Published $ARTIFACT to Ansible Galaxy"
