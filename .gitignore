@@ -209,3 +209,7 @@ __marimo__/
 # antsibull-changelog
 changelogs/.plugin-cache.yaml
 
+# Local Ansible
+.ansible/
+
+
