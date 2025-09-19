@@ -5,9 +5,6 @@ name: Antsibull Changelog Lint
 # and on any pull request.
 on:
   pull_request:
-    branches:
-      - main
-      - develop
 
 jobs:
   lint:
