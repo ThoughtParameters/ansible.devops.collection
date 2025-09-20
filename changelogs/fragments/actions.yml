@@ -3,6 +3,6 @@ release_summary: |
   Updated the GitHub Actions workflow to use the GitHub release tarball (already built and published in a GitHub Release)
   when publishing to Ansible Galaxy (galaxy.ansible.com), instead of rebuilding the collection artifact again.
 
-feat:
+minor_changes:
   - GitHub Actions workflow - use the existing release tarball from the GitHub Release to publish the collection to Ansible Galaxy,
     reducing redundant builds and ensuring consistency.
