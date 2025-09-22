@@ -1,6 +1,4 @@
 ---
-summary: Combined the GitHub Actions release and publish workflows into a single, streamlined process.
-
 minor_changes:
   - "CI - Merged the separate workflows for creating a GitHub release and publishing to Ansible Galaxy into a single, unified `release-and-publish.yml` workflow."
   - "CI - The new workflow is composed of two distinct jobs: `release` and `publish`. The `publish` job is dependent on the successful completion of the `release` job."
