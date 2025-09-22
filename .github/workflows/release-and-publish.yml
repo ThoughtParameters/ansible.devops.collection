@@ -1,0 +1,166 @@
+# This workflow is triggered manually from the GitHub Actions UI.
+# It performs the following steps:
+# 1. Calculates the next version number based on user input (patch, minor, major).
+# 2. Updates the galaxy.yml file and generates a changelog.
+# 3. Builds the Ansible collection into a tarball.
+# 4. Commits the changes, creates a new git tag, and pushes to the repository.
+# 5. Creates a GitHub Release with the changelog and attaches the collection tarball.
+# 6. Publishes the collection tarball to Ansible Galaxy.
+name: Create Release and Publish to Ansible Galaxy 🚀
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Type of version bump (major, minor, patch, or initial)"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - initial
+        default: "patch"
+
+# Permissions required for committing, tagging, and creating a release
+permissions:
+  contents: write
+
+jobs:
+  # This job handles versioning, building, and creating the GitHub release
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      tarball_name: ${{ steps.build.outputs.tarball_name }}
+    steps:
+      - name:  checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history and tags for version calculation
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install antsibull-changelog PyYAML
+
+      - name: 🤖 Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: ⚙️ Calculate New Version
+        id: versioning
+        run: |
+          # This script reads galaxy.yml, gets the current version, and bumps it
+          # based on the workflow input. It outputs the new version number.
+          python << EOF
+          import yaml
+          import os
+
+          bump_type = "${{ github.event.inputs.version_bump }}"
+
+          with open('galaxy.yml', 'r') as f:
+              galaxy_data = yaml.safe_load(f)
+
+          current_version = galaxy_data['version']
+          major, minor, patch = map(int, current_version.split('.'))
+
+          if bump_type == 'major':
+              major += 1
+              minor = 0
+              patch = 0
+          elif bump_type == 'minor':
+              minor += 1
+              patch = 0
+          elif bump_type == 'patch':
+              patch += 1
+          elif bump_type == 'initial':
+              if current_version != '0.0.0':
+                  print(f"::error::Initial version bump can only be done from version 0.0.0, but current is {current_version}")
+                  exit(1)
+              else:
+                  major, minor, patch = 0, 0, 1
+          
+          new_version = f"{major}.{minor}.{patch}"
+          galaxy_data['version'] = new_version
+
+          with open('galaxy.yml', 'w', encoding='utf-8') as f:
+              yaml.dump(galaxy_data, f, default_flow_style=False, indent=2, sort_keys=False, allow_unicode=True, width=120)
+          
+          print(f"Current version: {current_version}")
+          print(f"New version: {new_version}")
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as hf:
+              print(f'new_version={new_version}', file=hf)
+          EOF
+
+      - name: 📜 Generate Changelog
+        run: antsibull-changelog release --version ${{ steps.versioning.outputs.new_version }}
+
+      - name: 📦 Build Ansible Collection
+        id: build
+        run: |
+          # Build the collection tarball
+          ansible-galaxy collection build
+          
+          # Find the generated tarball name and save it as an output
+          TARBALL_NAME=$(find . -name "*.tar.gz" | head -n 1)
+          echo "Found tarball: ${TARBALL_NAME}"
+          echo "tarball_name=${TARBALL_NAME}" >> $GITHUB_OUTPUT
+
+      - name: 💾 Commit, Tag, and Push Changes
+        run: |
+          git add galaxy.yml changelogs/changelog.yaml CHANGELOG.md CHANGELOG.rst changelogs/fragments/
+          git commit -m "chore(release): Release version ${{ steps.versioning.outputs.new_version }}"
+          git tag "v${{ steps.versioning.outputs.new_version }}"
+          git push
+          git push --tags
+
+      - name: 🎉 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.versioning.outputs.new_version }}"
+          body_path: CHANGELOG.md
+          files: "${{ steps.build.outputs.tarball_name }}"
+
+      - name: ⬆️ Upload collection for publish job
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-tarball
+          path: ${{ steps.build.outputs.tarball_name }}
+          retention-days: 1
+
+  # This job publishes the collection to Ansible Galaxy after the release is created
+  publish:
+    runs-on: ubuntu-latest
+    needs: release # This ensures the 'release' job must complete successfully first
+    steps:
+      - name: ⬇️ Download collection tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: collection-tarball
+
+      - name: 📦 Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: 🌌 Publish collection to Ansible Galaxy
+        env:
+          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+        run: |
+          # The tarball name is passed from the previous job
+          TARBALL_NAME="${{ needs.release.outputs.tarball_name }}"
+          echo "Publishing ${TARBALL_NAME} to Ansible Galaxy..."
+          ansible-galaxy collection publish "${TARBALL_NAME}" --api-key "$GALAXY_API_KEY"
+          if [ $? -ne 0 ]; then
+            echo "::error::Failed to publish ${TARBALL_NAME} to Ansible Galaxy"
+            exit 1
+          fi
+          echo "Successfully published ${TARBALL_NAME} to Ansible Galaxy"
